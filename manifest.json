@@ -1,0 +1,10 @@
+﻿{
+    "Name": "StardewElections",
+    "Author": "pandas8888",
+    "Version": "1.0.0",
+    "Description": "Compete with Lewis for Stardew Valley mayoral seat!",
+    "UniqueID": "pandas8888.StardewElections",
+    "EntryDll": "StardewElections.dll",
+    "MinimumApiVersion": "3.0.0",
+    "UpdateKeys": []
+}
