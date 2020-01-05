@@ -34,6 +34,8 @@
     <Compile Include="ModEntry.cs" />
     <Compile Include="ElectionMail.cs" />
     <Compile Include="ElectionAssetPlacement.cs" />
+    <Compile Include="ModData.cs" />
+    <Compile Include="ElectionMenu.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\packages.config" />
