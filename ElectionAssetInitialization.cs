@@ -1,22 +1,25 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewModdingAPI.Utilities;
 using StardewValley;
+using StardewValley.Menus;
 using xTile.Dimensions;
 using xTile.Layers;
 using xTile.Tiles;
 
 namespace StardewElections
 {
-    public class ElectionAssetPlacement
+    public class ElectionAssetInitialization
     {
         Vector2 boxPosition = new Vector2(39, 57);
         readonly SDate initialEntryDate = new SDate(1, "spring", 3);
         readonly SDate finalEntryDate = new SDate(4, "spring", 3);
 
-        //Asset Single Tiles
+        //Asset Single Tiles & Textures
         TileSheet candidateBoxTile;
+        public Texture2D electionIcon;
 
         public void LoadAllAssets(IModHelper modHelper)
         {
@@ -31,6 +34,9 @@ namespace StardewElections
                     sheetSize: new Size(16, 16), // the tile size of your tilesheet image.
                     tileSize: new Size(16, 16)
             );
+
+            electionIcon = modHelper.Content.Load<Texture2D>("assets/Election_Icon.png",
+                ContentSource.ModFolder);
         }
 
         public void PlaceAssets()
@@ -59,15 +65,17 @@ namespace StardewElections
 
         }
 
-        public void CandidateBoxReaction(ButtonReleasedEventArgs e, ModData saveData)
+        public void AssetReactions(ButtonReleasedEventArgs e, ModData saveData)
         {
             if (SDate.Now() >= initialEntryDate && SDate.Now() <= finalEntryDate)
             {
                 if (saveData.enteredElection && e.Button.IsActionButton()
                 && e.Cursor.GrabTile.Equals(boxPosition)
-                && Game1.player.currentLocation == Game1.getLocationFromName("Town"))
+                && Game1.player.currentLocation == Game1.getLocationFromName("Town")
+                && Game1.activeClickableMenu == null)
                 {
-                    Game1.drawObjectDialogue("You have already entered the election!");
+                    Game1.activeClickableMenu = new DialogueBox("You have already " +
+                        "entered the election!");
                 }
 
                 else if (!saveData.enteredElection && e.Button.IsActionButton()
@@ -87,6 +95,9 @@ namespace StardewElections
                             {
                                 case "100":
                                     saveData.enteredElection = true;
+                                    HUDMessage menuMessage = new HUDMessage("The election menu is now " +
+                                        "available!", 2);
+                                    Game1.addHUDMessage(menuMessage);
                                     break;
                                 case "200":
                                 //do nothing;

@@ -1,30 +1,23 @@
-﻿using System;
-using StardewModdingAPI;
-using StardewModdingAPI.Events;
+﻿using StardewValley;
 using StardewValley.Menus;
-using StardewValley;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace StardewElections
 {
     public class ElectionMenu : IClickableMenu
     {
-        IModHelper modHelper;
 
-        public ElectionMenu(IModHelper helper) 
+        public override void receiveLeftClick(int x, int y, bool playSound = true)
         {
-            modHelper = helper;
-
-            helper.Events.Display.MenuChanged += OnMenuChanged;
+            base.receiveLeftClick(x, y, playSound);
         }
 
-        private void OnMenuChanged(object sender, MenuChangedEventArgs e)
+        public override void draw(SpriteBatch b)
         {
-            if (e.NewMenu is GameMenu)
-            {
-                xPositionOnScreen = Game1.activeClickableMenu.xPositionOnScreen;
-                yPositionOnScreen = Game1.activeClickableMenu.yPositionOnScreen + 10;
-                height = Game1.activeClickableMenu.height;
-            }
+            //Basic Menu background
+            Game1.drawDialogueBox(xPositionOnScreen, yPositionOnScreen,
+                width, height, false, true);
+
         }
 
     }
